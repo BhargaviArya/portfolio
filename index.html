@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bhargavi Arya Siva | AI & Data Engineer</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --bg2: #111118;
+    --bg3: #1a1a24;
+    --border: rgba(255,255,255,0.08);
+    --border2: rgba(255,255,255,0.14);
+    --text: #f0f0f0;
+    --muted: #888;
+    --accent: #7c6bff;
+    --accent2: #00d4aa;
+    --accent3: #ff6b6b;
+    --gold: #ffd700;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+    line-height: 1.7;
+  }
+
+  /* ─── NOISE OVERLAY ─── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.2rem 4rem;
+    background: rgba(10,10,15,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800; font-size: 1.1rem;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    letter-spacing: -0.02em;
+  }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    color: var(--muted); text-decoration: none; font-size: 0.85rem;
+    font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--text); }
+
+  /* ─── HERO ─── */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 8rem 4rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(124,107,255,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(124,107,255,0.05) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 0%, transparent 70%);
+  }
+  .hero-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    pointer-events: none;
+  }
+  .orb1 { width: 500px; height: 500px; background: rgba(124,107,255,0.12); top: -100px; right: -100px; }
+  .orb2 { width: 300px; height: 300px; background: rgba(0,212,170,0.08); bottom: 100px; left: 10%; }
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(124,107,255,0.1); border: 1px solid rgba(124,107,255,0.3);
+    border-radius: 100px; padding: 0.4rem 1rem; margin-bottom: 2rem;
+    font-family: 'JetBrains Mono', monospace; font-size: 0.75rem;
+    color: var(--accent); width: fit-content;
+  }
+  .hero-tag::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--accent2); animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.3)} }
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(3rem, 7vw, 6rem);
+    font-weight: 800; line-height: 1.0;
+    letter-spacing: -0.03em;
+    margin-bottom: 1.5rem;
+  }
+  .hero h1 span {
+    background: linear-gradient(135deg, #fff 0%, var(--accent) 60%, var(--accent2) 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .hero-sub {
+    font-size: 1.15rem; color: var(--muted); max-width: 640px;
+    line-height: 1.8; margin-bottom: 3rem; font-weight: 300;
+  }
+  .hero-sub strong { color: var(--text); font-weight: 500; }
+  .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 0.8rem 1.8rem; border-radius: 8px;
+    font-weight: 500; font-size: 0.9rem; text-decoration: none;
+    transition: all 0.2s; cursor: pointer; border: none;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--accent), #5a4de6);
+    color: #fff;
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(124,107,255,0.4); }
+  .btn-secondary {
+    background: transparent; color: var(--text);
+    border: 1px solid var(--border2);
+  }
+  .btn-secondary:hover { border-color: var(--accent); background: rgba(124,107,255,0.05); }
+  .hero-stats {
+    display: flex; gap: 3rem; margin-top: 4rem;
+    padding-top: 3rem; border-top: 1px solid var(--border);
+  }
+  .stat-num {
+    font-family: 'Syne', sans-serif; font-size: 2rem; font-weight: 800;
+    background: linear-gradient(135deg, var(--text), var(--accent));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .stat-label { font-size: 0.8rem; color: var(--muted); margin-top: 0.2rem; letter-spacing: 0.05em; text-transform: uppercase; }
+
+  /* ─── SECTION COMMONS ─── */
+  section { padding: 6rem 4rem; position: relative; }
+  .section-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.72rem;
+    color: var(--accent2); letter-spacing: 0.15em; text-transform: uppercase;
+    margin-bottom: 0.75rem; display: flex; align-items: center; gap: 10px;
+  }
+  .section-label::before { content: ''; display: block; width: 24px; height: 1px; background: var(--accent2); }
+  .section-title {
+    font-family: 'Syne', sans-serif; font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800; letter-spacing: -0.03em; margin-bottom: 1rem;
+  }
+  .section-desc { color: var(--muted); max-width: 560px; line-height: 1.8; margin-bottom: 3.5rem; }
+
+  /* ─── AWARD BANNER ─── */
+  .award-banner {
+    margin: 0 4rem 0;
+    background: linear-gradient(135deg, rgba(255,215,0,0.06), rgba(255,215,0,0.02));
+    border: 1px solid rgba(255,215,0,0.25);
+    border-radius: 16px;
+    padding: 2rem 2.5rem;
+    display: flex; align-items: center; gap: 2rem;
+    position: relative; overflow: hidden;
+  }
+  .award-banner::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,215,0,0.6), transparent);
+  }
+  .award-icon { font-size: 3.5rem; line-height: 1; flex-shrink: 0; }
+  .award-content h3 {
+    font-family: 'Syne', sans-serif; font-size: 1.3rem; font-weight: 700;
+    color: var(--gold); margin-bottom: 0.25rem;
+  }
+  .award-content p { color: var(--muted); font-size: 0.9rem; }
+  .award-badge {
+    margin-left: auto; flex-shrink: 0;
+    background: rgba(255,215,0,0.1); border: 1px solid rgba(255,215,0,0.3);
+    border-radius: 100px; padding: 0.4rem 1.2rem;
+    font-family: 'JetBrains Mono', monospace; font-size: 0.72rem;
+    color: var(--gold); white-space: nowrap;
+  }
+
+  /* ─── SKILLS ─── */
+  #skills { background: var(--bg2); }
+  .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+  .skill-card {
+    background: var(--bg3); border: 1px solid var(--border);
+    border-radius: 16px; padding: 1.75rem;
+    transition: border-color 0.2s, transform 0.2s;
+    position: relative; overflow: hidden;
+  }
+  .skill-card:hover { border-color: var(--border2); transform: translateY(-4px); }
+  .skill-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    opacity: 0; transition: opacity 0.2s;
+  }
+  .skill-card:hover::before { opacity: 1; }
+  .sk-ai::before { background: linear-gradient(90deg, var(--accent), var(--accent2)); }
+  .sk-data::before { background: linear-gradient(90deg, var(--accent2), #00aaff); }
+  .sk-ml::before { background: linear-gradient(90deg, #ff6b6b, #ff9f43); }
+  .sk-viz::before { background: linear-gradient(90deg, #a29bfe, var(--accent)); }
+  .skill-icon { font-size: 1.5rem; margin-bottom: 1rem; }
+  .skill-cat {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.7rem;
+    color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.5rem;
+  }
+  .skill-card h3 { font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700; margin-bottom: 1rem; }
+  .skill-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .tag {
+    font-size: 0.75rem; padding: 0.3rem 0.65rem; border-radius: 6px;
+    background: rgba(255,255,255,0.05); color: var(--muted);
+    border: 1px solid var(--border);
+    font-family: 'JetBrains Mono', monospace;
+    transition: all 0.15s;
+  }
+  .tag:hover { background: rgba(124,107,255,0.1); color: var(--accent); border-color: rgba(124,107,255,0.3); }
+  .tag.hot { background: rgba(124,107,255,0.1); color: var(--accent); border-color: rgba(124,107,255,0.25); }
+  .tag.new { background: rgba(0,212,170,0.08); color: var(--accent2); border-color: rgba(0,212,170,0.2); }
+
+  /* ─── EXPERIENCE ─── */
+  .timeline { position: relative; padding-left: 2rem; }
+  .timeline::before {
+    content: ''; position: absolute; left: 0; top: 8px; bottom: 0;
+    width: 1px; background: linear-gradient(180deg, var(--accent), transparent);
+  }
+  .tl-item { position: relative; margin-bottom: 3.5rem; }
+  .tl-dot {
+    position: absolute; left: -2.4rem; top: 6px;
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--accent); border: 2px solid var(--bg);
+    box-shadow: 0 0 0 3px rgba(124,107,255,0.2);
+  }
+  .tl-dot.current { background: var(--accent2); box-shadow: 0 0 0 3px rgba(0,212,170,0.2); animation: pulse 2s infinite; }
+  .tl-header { display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem; }
+  .tl-title { font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 700; }
+  .tl-company { color: var(--accent2); font-size: 0.9rem; margin-bottom: 0.25rem; }
+  .tl-date {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.72rem;
+    color: var(--muted); white-space: nowrap;
+    background: var(--bg3); border: 1px solid var(--border); border-radius: 100px;
+    padding: 0.25rem 0.75rem;
+  }
+  .tl-bullets { margin-top: 0.75rem; padding-left: 0; list-style: none; }
+  .tl-bullets li {
+    position: relative; padding-left: 1.2rem; color: var(--muted);
+    font-size: 0.88rem; line-height: 1.8; margin-bottom: 0.3rem;
+  }
+  .tl-bullets li::before { content: '→'; position: absolute; left: 0; color: var(--accent); }
+  .tl-bullets li strong { color: var(--text); font-weight: 500; }
+  .tl-tech { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.75rem; }
+  .tl-tag {
+    font-size: 0.68rem; padding: 0.2rem 0.55rem; border-radius: 4px;
+    background: rgba(124,107,255,0.08); color: var(--accent);
+    border: 1px solid rgba(124,107,255,0.18);
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* ─── PROJECTS ─── */
+  #projects { background: var(--bg2); }
+  .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 1.5rem; }
+  .proj-card {
+    background: var(--bg3); border: 1px solid var(--border);
+    border-radius: 20px; padding: 2rem;
+    transition: all 0.25s; position: relative; overflow: hidden;
+    display: flex; flex-direction: column;
+  }
+  .proj-card:hover { border-color: var(--border2); transform: translateY(-6px); }
+  .proj-card::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(124,107,255,0.04), transparent);
+    opacity: 0; transition: opacity 0.25s;
+  }
+  .proj-card:hover::after { opacity: 1; }
+  .proj-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 1rem; }
+  .proj-icon {
+    width: 48px; height: 48px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem;
+  }
+  .proj-icon.ai { background: rgba(124,107,255,0.15); }
+  .proj-icon.data { background: rgba(0,212,170,0.12); }
+  .proj-icon.ml { background: rgba(255,107,107,0.12); }
+  .proj-badge {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.68rem;
+    padding: 0.25rem 0.65rem; border-radius: 100px; border: 1px solid;
+  }
+  .badge-ai { color: var(--accent); border-color: rgba(124,107,255,0.3); background: rgba(124,107,255,0.08); }
+  .badge-data { color: var(--accent2); border-color: rgba(0,212,170,0.3); background: rgba(0,212,170,0.08); }
+  .badge-ml { color: #ff9f43; border-color: rgba(255,159,67,0.3); background: rgba(255,159,67,0.08); }
+  .proj-card h3 { font-family: 'Syne', sans-serif; font-size: 1.05rem; font-weight: 700; margin-bottom: 0.5rem; }
+  .proj-date { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--muted); margin-bottom: 0.75rem; }
+  .proj-desc { color: var(--muted); font-size: 0.87rem; line-height: 1.75; flex: 1; }
+  .proj-tech { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1.25rem; }
+
+  /* ─── CERTIFICATIONS ─── */
+  .certs-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; }
+  .cert-card {
+    background: var(--bg3); border: 1px solid var(--border);
+    border-radius: 14px; padding: 1.5rem;
+    display: flex; align-items: center; gap: 1rem;
+    transition: all 0.2s;
+  }
+  .cert-card:hover { border-color: var(--border2); }
+  .cert-logo {
+    width: 44px; height: 44px; border-radius: 10px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.3rem;
+  }
+  .cert-logo.sf { background: rgba(0,161,224,0.12); }
+  .cert-logo.az { background: rgba(0,120,212,0.12); }
+  .cert-logo.ms { background: rgba(242,80,34,0.1); }
+  .cert-info h4 { font-size: 0.88rem; font-weight: 500; margin-bottom: 0.2rem; }
+  .cert-info p { font-size: 0.75rem; color: var(--muted); }
+  .cert-year {
+    margin-left: auto; font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem; color: var(--accent); flex-shrink: 0;
+  }
+
+  /* ─── EDUCATION ─── */
+  #education { background: var(--bg2); }
+  .edu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
+  .edu-card {
+    background: var(--bg3); border: 1px solid var(--border);
+    border-radius: 18px; padding: 2rem; position: relative; overflow: hidden;
+  }
+  .edu-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+  }
+  .edu-degree { font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700; margin-bottom: 0.4rem; }
+  .edu-school { color: var(--accent2); font-size: 0.88rem; margin-bottom: 0.25rem; }
+  .edu-meta { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--muted); }
+  .edu-gpa {
+    display: inline-block; margin-top: 0.75rem;
+    background: rgba(0,212,170,0.1); border: 1px solid rgba(0,212,170,0.2);
+    border-radius: 6px; padding: 0.2rem 0.6rem;
+    font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--accent2);
+  }
+
+  /* ─── CONTACT ─── */
+  #contact {
+    text-align: center;
+    background: radial-gradient(ellipse 80% 60% at 50% 100%, rgba(124,107,255,0.08), transparent);
+  }
+  .contact-card {
+    max-width: 600px; margin: 0 auto;
+    background: var(--bg3); border: 1px solid var(--border);
+    border-radius: 24px; padding: 3rem;
+    position: relative; overflow: hidden;
+  }
+  .contact-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  }
+  .contact-links { display: flex; justify-content: center; flex-wrap: wrap; gap: 1rem; margin-top: 2rem; }
+  .contact-link {
+    display: flex; align-items: center; gap: 8px;
+    padding: 0.7rem 1.4rem; border-radius: 10px;
+    background: var(--bg2); border: 1px solid var(--border);
+    color: var(--muted); text-decoration: none; font-size: 0.85rem;
+    transition: all 0.2s;
+  }
+  .contact-link:hover { border-color: var(--accent); color: var(--accent); background: rgba(124,107,255,0.05); }
+
+  /* ─── FOOTER ─── */
+  footer {
+    text-align: center; padding: 2rem 4rem;
+    border-top: 1px solid var(--border);
+    color: var(--muted); font-size: 0.8rem;
+  }
+
+  /* ─── SCROLL REVEAL ─── */
+  .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    section { padding: 4rem 1.5rem; }
+    .hero { padding: 6rem 1.5rem 3rem; }
+    .hero-stats { gap: 1.5rem; flex-wrap: wrap; }
+    .award-banner { margin: 0 1.5rem; flex-wrap: wrap; }
+    .award-badge { margin-left: 0; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">BAS</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#certifications">Certs</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="about">
+  <div class="hero-grid"></div>
+  <div class="orb1 hero-orb"></div>
+  <div class="orb2 hero-orb"></div>
+
+  <div class="hero-tag">Available for AI Engineering Roles · 2026</div>
+
+  <h1>
+    <span>Bhargavi</span><br>
+    Arya Siva
+  </h1>
+
+  <p class="hero-sub">
+    <strong>Agentic AI Engineer · LLM & RAG Architect · AI Automation Specialist</strong><br>
+    Building autonomous AI systems with <strong>Azure AI Foundry</strong>, <strong>LangChain</strong>, <strong>MCP</strong>, and <strong>RAG pipelines</strong>. 4+ years shipping AI-driven solutions across healthcare, government, banking, and insurance — turning complex data into intelligent, actionable products.
+  </p>
+
+  <div class="hero-cta">
+    <a href="#experience" class="btn btn-primary">View My Work</a>
+    <a href="mailto:bhargaviarya11@gmail.com" class="btn btn-secondary">Get in Touch</a>
+  </div>
+
+  <div class="hero-stats">
+    <div>
+      <div class="stat-num">4+</div>
+      <div class="stat-label">Years Experience</div>
+    </div>
+    <div>
+      <div class="stat-num">10M+</div>
+      <div class="stat-label">Claims Analyzed</div>
+    </div>
+    <div>
+      <div class="stat-num">5+</div>
+      <div class="stat-label">Industries Served</div>
+    </div>
+    <div>
+      <div class="stat-num">🏆 2nd</div>
+      <div class="stat-label">AI Hackathon 2026</div>
+    </div>
+  </div>
+</section>
+
+<!-- AWARD BANNER -->
+<div class="award-banner reveal">
+  <div class="award-icon">🥈</div>
+  <div class="award-content">
+    <h3>NWRDC AI Hackathon — 2nd Place Winner</h3>
+    <p>Designed and built an Agentic AI Policy Bot using Azure AI Foundry, LangChain &amp; RAG over 500+ Medicaid policy documents. Deployed multi-step reasoning with tool-calling agents for real-time investigator Q&amp;A.</p>
+  </div>
+  <div class="award-badge">🏆 NWRDC 2026</div>
+</div>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-label">Expertise</div>
+  <h2 class="section-title">Technical Skills</h2>
+  <p class="section-desc">A modern AI stack spanning agents, retrieval, LLMs, data engineering, and enterprise analytics.</p>
+
+  <div class="skills-grid reveal">
+
+    <div class="skill-card sk-ai">
+      <div class="skill-icon">🤖</div>
+      <div class="skill-cat">Agentic AI</div>
+      <h3>Agents & Orchestration</h3>
+      <div class="skill-tags">
+        <span class="tag hot">LangChain</span>
+        <span class="tag hot">Azure AI Foundry</span>
+        <span class="tag new">MCP</span>
+        <span class="tag hot">Multi-Agent Systems</span>
+        <span class="tag">Tool Calling</span>
+        <span class="tag">Agentic Pipelines</span>
+        <span class="tag">Autonomous Workflows</span>
+      </div>
+    </div>
+
+    <div class="skill-card sk-ai">
+      <div class="skill-icon">🔍</div>
+      <div class="skill-cat">RAG & Retrieval</div>
+      <h3>RAG & Knowledge Systems</h3>
+      <div class="skill-tags">
+        <span class="tag hot">RAG</span>
+        <span class="tag hot">Azure AI Search</span>
+        <span class="tag">Semantic Search</span>
+        <span class="tag">Vector Stores</span>
+        <span class="tag">Embedding Models</span>
+        <span class="tag">Hybrid Retrieval</span>
+        <span class="tag">Knowledge Bases</span>
+      </div>
+    </div>
+
+    <div class="skill-card sk-ai">
+      <div class="skill-icon">💬</div>
+      <div class="skill-cat">LLMs & Prompting</div>
+      <h3>LLM & Prompt Engineering</h3>
+      <div class="skill-tags">
+        <span class="tag hot">Azure OpenAI (GPT-4)</span>
+        <span class="tag hot">Prompt Engineering</span>
+        <span class="tag">Chain-of-Thought</span>
+        <span class="tag">Few-Shot Learning</span>
+        <span class="tag">Structured Outputs</span>
+        <span class="tag hot">Kore.AI</span>
+        <span class="tag">NLU Design</span>
+      </div>
+    </div>
+
+    <div class="skill-card sk-ml">
+      <div class="skill-icon">🧠</div>
+      <div class="skill-cat">Machine Learning</div>
+      <h3>ML & AI Frameworks</h3>
+      <div class="skill-tags">
+        <span class="tag">Scikit-learn</span>
+        <span class="tag">TensorFlow</span>
+        <span class="tag">LightGBM</span>
+        <span class="tag">Random Forest</span>
+        <span class="tag">NLP</span>
+        <span class="tag">Forecasting</span>
+        <span class="tag">Anomaly Detection</span>
+      </div>
+    </div>
+
+    <div class="skill-card sk-data">
+      <div class="skill-icon">⚙️</div>
+      <div class="skill-cat">Data Engineering</div>
+      <h3>Data & Cloud Platforms</h3>
+      <div class="skill-tags">
+        <span class="tag">SQL</span>
+        <span class="tag">Python</span>
+        <span class="tag">PySpark</span>
+        <span class="tag">AWS Glue</span>
+        <span class="tag">Apache Airflow</span>
+        <span class="tag">Snowflake</span>
+        <span class="tag">Amazon Redshift</span>
+        <span class="tag">BigQuery</span>
+        <span class="tag">PostgreSQL</span>
+        <span class="tag">ETL/ELT</span>
+      </div>
+    </div>
+
+    <div class="skill-card sk-viz">
+      <div class="skill-icon">📊</div>
+      <div class="skill-cat">Analytics & BI</div>
+      <h3>Visualization & Analytics</h3>
+      <div class="skill-tags">
+        <span class="tag hot">Tableau ✓ Certified</span>
+        <span class="tag">Power BI</span>
+        <span class="tag">Salesforce CRM Analytics</span>
+        <span class="tag">A/B Testing</span>
+        <span class="tag">KPI Dashboards</span>
+        <span class="tag">Predictive Analytics</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-label">Career</div>
+  <h2 class="section-title">Experience</h2>
+  <p class="section-desc">From building real-time fraud detection engines to deploying agentic AI policy bots at a Florida state agency.</p>
+
+  <div class="timeline">
+
+    <div class="tl-item reveal">
+      <div class="tl-dot current"></div>
+      <div class="tl-header">
+        <div>
+          <div class="tl-title">Agentic AI & Data Engineer — System Project Consultant</div>
+          <div class="tl-company">Agency for Health Care Administration (AHCA) · FL State Government · Tallahassee, FL</div>
+        </div>
+        <div class="tl-date">Jan 2026 — Present</div>
+      </div>
+      <ul class="tl-bullets">
+        <li><strong>Architected Agentic AI Policy Bot</strong> for NWRDC Hackathon using Azure AI Foundry, LangChain &amp; Azure AI Search — RAG over 500+ Medicaid policy docs with multi-step reasoning &amp; tool-calling agents — <strong>🥈 2nd Place</strong></li>
+        <li>Designed <strong>multi-agent RAG pipelines</strong> with MCP-style tool orchestration for fraud signal detection across 10M+ Medicaid claims</li>
+        <li>Engineered <strong>prompt engineering frameworks</strong> (chain-of-thought, structured JSON, few-shot) for anomaly classification &amp; risk explanation generation</li>
+        <li>Led statewide <strong>Medicaid Risk Scoring Project</strong> — built predictive scoring models and agentic decision pipelines for senior leadership</li>
+        <li>Built <strong>5+ Tableau dashboards</strong> tracking fraud KPIs, duplicate billing anomalies, and provider utilization in real time</li>
+        <li>Automated reporting &amp; validation workflows cutting manual processing time by <strong>~40%</strong></li>
+      </ul>
+      <div class="tl-tech">
+        <span class="tl-tag">Azure AI Foundry</span>
+        <span class="tl-tag">LangChain</span>
+        <span class="tl-tag">Azure AI Search</span>
+        <span class="tl-tag">MCP</span>
+        <span class="tl-tag">RAG</span>
+        <span class="tl-tag">Prompt Engineering</span>
+        <span class="tl-tag">Tableau</span>
+        <span class="tl-tag">SQL</span>
+        <span class="tl-tag">Python</span>
+        <span class="tl-tag">Amazon Redshift</span>
+      </div>
+    </div>
+
+    <div class="tl-item reveal">
+      <div class="tl-dot"></div>
+      <div class="tl-header">
+        <div>
+          <div class="tl-title">LLM Engineer & Conversational AI Developer</div>
+          <div class="tl-company">M Result Services · Hyderabad, India</div>
+        </div>
+        <div class="tl-date">Jun 2023 — Dec 2023</div>
+      </div>
+      <ul class="tl-bullets">
+        <li>Built <strong>LLM-powered chatbots</strong> for airline, banking &amp; insurance domains using Kore.AI — designed intent taxonomy, dialogue flows &amp; context management for multi-turn conversations</li>
+        <li>Engineered <strong>prompt templates</strong> with chain-of-thought &amp; few-shot techniques — improved query resolution accuracy by <strong>25%+</strong></li>
+        <li>Designed <strong>agentic dialogue flows</strong> with tool-calling (CRM lookup, policy retrieval, escalation routing) for autonomous end-to-end resolution</li>
+        <li>Built <strong>Salesforce CRM Analytics dashboards</strong> tracking bot accuracy, escalation rate &amp; session engagement</li>
+      </ul>
+      <div class="tl-tech">
+        <span class="tl-tag">Kore.AI</span>
+        <span class="tl-tag">LLM Development</span>
+        <span class="tl-tag">Prompt Engineering</span>
+        <span class="tl-tag">NLU</span>
+        <span class="tl-tag">Salesforce CRM Analytics</span>
+        <span class="tl-tag">Tool Calling</span>
+      </div>
+    </div>
+
+    <div class="tl-item reveal">
+      <div class="tl-dot"></div>
+      <div class="tl-header">
+        <div>
+          <div class="tl-title">Machine Learning Engineer — Fraud Detection</div>
+          <div class="tl-company">Quadratic Insights Pvt. Ltd · Hyderabad, India</div>
+        </div>
+        <div class="tl-date">Jan 2022 — Dec 2022</div>
+      </div>
+      <ul class="tl-bullets">
+        <li>Built <strong>real-time fraud detection system</strong> (Random Forest + Gradient Boosting) with predictions in <strong>under 30 seconds</strong> and biweekly automated retraining across 100M+ transactions</li>
+        <li>Built end-to-end ML pipelines using PySpark, AWS Glue, SQL &amp; Apache Airflow for ingestion, feature engineering &amp; KPI tracking</li>
+        <li>Designed <strong>Power BI dashboards</strong> for real-time fraud detection rates and financial exposure metrics</li>
+      </ul>
+      <div class="tl-tech">
+        <span class="tl-tag">PySpark</span>
+        <span class="tl-tag">AWS Glue</span>
+        <span class="tl-tag">Apache Airflow</span>
+        <span class="tl-tag">Random Forest</span>
+        <span class="tl-tag">Gradient Boosting</span>
+        <span class="tl-tag">Power BI</span>
+        <span class="tl-tag">SQL</span>
+      </div>
+    </div>
+
+    <div class="tl-item reveal">
+      <div class="tl-dot"></div>
+      <div class="tl-header">
+        <div>
+          <div class="tl-title">ML Engineer — Insurance Analytics & Reporting Automation</div>
+          <div class="tl-company">Dabur India (Easypolicy &amp; Capitalgram Insurance) · Noida, India</div>
+        </div>
+        <div class="tl-date">Mar 2020 — Dec 2021</div>
+      </div>
+      <ul class="tl-bullets">
+        <li>Built <strong>multi-PDF OCR &amp; NLP engine</strong> to consolidate unstructured insurance documents into structured analytical models</li>
+        <li>Automated ETL extraction, transformation &amp; aggregation workflows across high-volume insurance reporting pipelines</li>
+        <li>Developed portfolio risk exposure models and premium revenue forecasts for underwriting &amp; finance stakeholders</li>
+      </ul>
+      <div class="tl-tech">
+        <span class="tl-tag">Python</span>
+        <span class="tl-tag">NLP</span>
+        <span class="tl-tag">OCR</span>
+        <span class="tl-tag">ETL</span>
+        <span class="tl-tag">Risk Modeling</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-label">Work</div>
+  <h2 class="section-title">Featured Projects</h2>
+  <p class="section-desc">Selected projects spanning agentic AI, fraud detection, credit risk, and predictive analytics.</p>
+
+  <div class="projects-grid">
+
+    <div class="proj-card reveal">
+      <div class="proj-top">
+        <div class="proj-icon ai">🤖</div>
+        <span class="proj-badge badge-ai">Agentic AI</span>
+      </div>
+      <h3>Medicaid Agentic AI Policy Bot</h3>
+      <div class="proj-date">Jan 2026 — Present · AHCA, FL State Government</div>
+      <p class="proj-desc">Designed and deployed an Agentic AI Policy Bot using Azure AI Foundry, LangChain, and Azure AI Search. RAG pipeline over 500+ Medicaid policy documents with hybrid semantic search, multi-step reasoning, and MCP-style tool-calling agents. Secured 2nd Place at the NWRDC AI Hackathon 2026.</p>
+      <div class="proj-tech">
+        <span class="tag">Azure AI Foundry</span>
+        <span class="tag">LangChain</span>
+        <span class="tag">RAG</span>
+        <span class="tag">MCP</span>
+        <span class="tag">Azure AI Search</span>
+      </div>
+    </div>
+
+    <div class="proj-card reveal">
+      <div class="proj-top">
+        <div class="proj-icon ai">🔎</div>
+        <span class="proj-badge badge-ai">AI Automation</span>
+      </div>
+      <h3>Statewide Medicaid Risk Scoring System</h3>
+      <div class="proj-date">Jan 2026 — Present · AHCA, FL State Government</div>
+      <p class="proj-desc">Led statewide Medicaid Risk Scoring Project with department chiefs and senior leadership. Built predictive scoring models and agentic workflows to identify high-risk providers, claims anomalies, and fraud/waste/abuse patterns across 10M+ claims. Integrated data from FX EDW, Redshift, and PostgreSQL.</p>
+      <div class="proj-tech">
+        <span class="tag">Python</span>
+        <span class="tag">SQL</span>
+        <span class="tag">Predictive Modeling</span>
+        <span class="tag">Tableau</span>
+        <span class="tag">Redshift</span>
+      </div>
+    </div>
+
+    <div class="proj-card reveal">
+      <div class="proj-top">
+        <div class="proj-icon ai">💬</div>
+        <span class="proj-badge badge-ai">LLM Engineering</span>
+      </div>
+      <h3>Airline & Banking LLM Chatbot Platform</h3>
+      <div class="proj-date">Jun 2023 — Dec 2023 · M Result Services</div>
+      <p class="proj-desc">Developed multi-domain LLM chatbots for airline, banking, and insurance using Kore.AI. Designed NLU architecture, intent taxonomy, and agentic dialogue flows with tool-calling (CRM lookup, policy retrieval, escalation routing). Applied chain-of-thought prompting and few-shot templates — improved resolution accuracy by 25%+.</p>
+      <div class="proj-tech">
+        <span class="tag">Kore.AI</span>
+        <span class="tag">Prompt Engineering</span>
+        <span class="tag">NLU</span>
+        <span class="tag">Tool Calling</span>
+        <span class="tag">Salesforce CRM</span>
+      </div>
+    </div>
+
+    <div class="proj-card reveal">
+      <div class="proj-top">
+        <div class="proj-icon ml">🃏</div>
+        <span class="proj-badge badge-ml">Real-Time ML</span>
+      </div>
+      <h3>Real-Time Card Fraud Detection Engine</h3>
+      <div class="proj-date">Jan 2022 — Dec 2022 · Quadratic Insights</div>
+      <p class="proj-desc">Built end-to-end real-time fraud detection system using Random Forest and Gradient Boosting across 100M+ financial transactions. Predictions in under 30 seconds with biweekly automated retraining. PySpark/Airflow data pipelines and Power BI dashboards for non-technical stakeholders.</p>
+      <div class="proj-tech">
+        <span class="tag">PySpark</span>
+        <span class="tag">Random Forest</span>
+        <span class="tag">AWS Glue</span>
+        <span class="tag">Airflow</span>
+        <span class="tag">Power BI</span>
+      </div>
+    </div>
+
+    <div class="proj-card reveal">
+      <div class="proj-top">
+        <div class="proj-icon data">📈</div>
+        <span class="proj-badge badge-data">Analytics</span>
+      </div>
+      <h3>Banking Revenue Prediction — CRM Analytics</h3>
+      <div class="proj-date">Jan 2025 — Apr 2025 · Florida State University</div>
+      <p class="proj-desc">Forecasted monthly banking customer revenue using LightGBM (best RMSE), identifying key revenue drivers from user behavior, product usage, and demographics. Applied A/B testing for model validation and benchmarked Linear Regression, Random Forest, and LightGBM using VIF and AIC/BIC selection.</p>
+      <div class="proj-tech">
+        <span class="tag">LightGBM</span>
+        <span class="tag">A/B Testing</span>
+        <span class="tag">Regression</span>
+        <span class="tag">Python</span>
+        <span class="tag">CRM Analytics</span>
+      </div>
+    </div>
+
+    <div class="proj-card reveal">
+      <div class="proj-top">
+        <div class="proj-icon ml">💳</div>
+        <span class="proj-badge badge-ml">Risk Modeling</span>
+      </div>
+      <h3>Credit Risk Modeling & Monitoring Dashboard</h3>
+      <div class="proj-date">Aug 2024 — Dec 2024 · Florida State University</div>
+      <p class="proj-desc">Built 4 classification models (Logistic Regression, Random Forest, Naive Bayes, DNN) on 300K+ Home Credit records evaluated on AUC-ROC, F1, Precision, and Recall. Merged 6 datasets, applied PCA retaining 99% variance, and translated model outputs into a Power BI-style dashboard for lending stakeholders.</p>
+      <div class="proj-tech">
+        <span class="tag">Logistic Regression</span>
+        <span class="tag">DNN</span>
+        <span class="tag">PCA</span>
+        <span class="tag">AUC-ROC</span>
+        <span class="tag">Power BI</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CERTIFICATIONS -->
+<section id="certifications">
+  <div class="section-label">Credentials</div>
+  <h2 class="section-title">Certifications</h2>
+  <p class="section-desc">Industry-recognized certifications across the Salesforce, Microsoft Azure, and AI/ML ecosystem.</p>
+
+  <div class="certs-grid reveal">
+    <div class="cert-card">
+      <div class="cert-logo sf">📊</div>
+      <div class="cert-info">
+        <h4>Tableau Desktop Specialist</h4>
+        <p>Salesforce · TTD101</p>
+      </div>
+      <div class="cert-year">2026</div>
+    </div>
+    <div class="cert-card">
+      <div class="cert-logo sf">📊</div>
+      <div class="cert-info">
+        <h4>Tableau Desktop Advanced</h4>
+        <p>Salesforce · TTD201</p>
+      </div>
+      <div class="cert-year">2025</div>
+    </div>
+    <div class="cert-card">
+      <div class="cert-logo sf">📊</div>
+      <div class="cert-info">
+        <h4>Tableau Desktop Advanced</h4>
+        <p>Salesforce · TTD301</p>
+      </div>
+      <div class="cert-year">2025</div>
+    </div>
+    <div class="cert-card">
+      <div class="cert-logo sf">📈</div>
+      <div class="cert-info">
+        <h4>Visual Analytics with Tableau</h4>
+        <p>Salesforce</p>
+      </div>
+      <div class="cert-year">2024</div>
+    </div>
+    <div class="cert-card">
+      <div class="cert-logo az">☁️</div>
+      <div class="cert-info">
+        <h4>Azure AI Fundamentals</h4>
+        <p>Microsoft · AI-900</p>
+      </div>
+      <div class="cert-year">2024</div>
+    </div>
+    <div class="cert-card">
+      <div class="cert-logo ms">📉</div>
+      <div class="cert-info">
+        <h4>Power BI</h4>
+        <p>Microsoft</p>
+      </div>
+      <div class="cert-year">2023</div>
+    </div>
+    <div class="cert-card">
+      <div class="cert-logo az">⚙️</div>
+      <div class="cert-info">
+        <h4>MLOps</h4>
+        <p>Professional Certification</p>
+      </div>
+      <div class="cert-year">2023</div>
+    </div>
+    <div class="cert-card" style="border-style: dashed; opacity: 0.7;">
+      <div class="cert-logo az">🔗</div>
+      <div class="cert-info">
+        <h4>LangChain & Generative AI</h4>
+        <p>In Progress · 2026</p>
+      </div>
+      <div class="cert-year" style="color: var(--accent2);">Soon</div>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="section-label">Academic</div>
+  <h2 class="section-title">Education</h2>
+  <p class="section-desc">Strong academic foundation in statistical data science, AI, and engineering.</p>
+
+  <div class="edu-grid reveal">
+    <div class="edu-card">
+      <div class="edu-degree">M.S. Statistical Data Science</div>
+      <div class="edu-school">Florida State University</div>
+      <div class="edu-meta">Dec 2025 · Tallahassee, FL</div>
+      <div class="edu-gpa">GPA 3.7 / 4.0</div>
+      <p style="font-size: 0.78rem; color: var(--muted); margin-top: 1rem; line-height: 1.7;">
+        Applied Regression · Time Series Analysis · A/B Testing · Experimental Design · Machine Learning · Advanced Data Science · Hypothesis Testing · Computational Methods · Advanced SAS
+      </p>
+    </div>
+    <div class="edu-card">
+      <div class="edu-degree">Post Graduate Diploma in Artificial Intelligence</div>
+      <div class="edu-school">CDAC, India</div>
+      <div class="edu-meta">Advanced AI & ML Specialization</div>
+    </div>
+    <div class="edu-card">
+      <div class="edu-degree">B.E. Electronics & Communication Engineering</div>
+      <div class="edu-school">Osmania University, India</div>
+      <div class="edu-meta">Bachelor of Engineering</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-label">Connect</div>
+  <h2 class="section-title">Get In Touch</h2>
+  <div class="contact-card reveal">
+    <p style="color: var(--muted); font-size: 1rem; line-height: 1.8;">
+      Open to <strong style="color:var(--text)">Agentic AI Engineer</strong>, <strong style="color:var(--text)">AI Automation Engineer</strong>, <strong style="color:var(--text)">LLM/GenAI Developer</strong>, and <strong style="color:var(--text)">AI Solutions Engineer</strong> roles. Let's build something extraordinary together.
+    </p>
+    <div class="contact-links">
+      <a class="contact-link" href="mailto:bhargaviarya11@gmail.com">
+        <span>📧</span> bhargaviarya11@gmail.com
+      </a>
+      <a class="contact-link" href="https://linkedin.com/in/bhargavi-arya-siva" target="_blank">
+        <span>🔗</span> LinkedIn
+      </a>
+      <a class="contact-link" href="https://bhargaviarya.github.io/my-portfolio" target="_blank">
+        <span>🌐</span> Portfolio
+      </a>
+      <a class="contact-link" href="tel:+14482008451">
+        <span>📞</span> +1 448-200-8451
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>Bhargavi Arya Siva · Tallahassee, FL · Built with precision &amp; purpose · 2026</p>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
